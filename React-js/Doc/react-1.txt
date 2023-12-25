@@ -1,0 +1,211 @@
+===========================================react js ============================================
+=========================مفاهيم رئيسية:
+==========الفرق بين export and export defaul:
+ ==اولا export تستخدم لتصدير اكثر من عنصر مثل المتغيرات 
+ مثال
+export const variable1 = 10;
+export const variable2 = 20;
+تصدير
+export function myFunction() {
+
+}
+استراد
+import { variable1, variable2, myFunction } from './MyComponent';
+
+==تانيا export default تستخدم لتصدير عنصر واحد 
+مثال 
+// في ملف MyComponent.js
+const MyComponent = () => {
+
+};
+تصدير
+
+export default MyComponent;
+استراد
+import MyComponent from './MyComponent';
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
+============================الخصائص props
+ق `props` هي اختصار لكلمة "خصائص" (Properties)، وتُستخدم لنقل البيانات من مكون (Component) المكون الأب (parent component) إلى المكون الابن (child component). يتم تمثيل `props` ككائن JavaScript ويمكن أن يحمل أي نوع من البيانات.
+
+عندما يتم استدعاء مكون، يمكن تمرير البيانات إليه باستخدام `props`. هذه البيانات يمكن أن تكون قيمًا أو دوالًا أو حتى مكونات أخرى.
+
+النظرة العامة لكيفية استخدام `props` في React:
+
+1. تمرير `props`:
+   - في المكون الأب، عند استدعاء المكون الابن، يمكن تمرير البيانات كمعاملات:
+
+     
+     import ChildComponent from './ChildComponent';
+
+     const ParentComponent = () => {
+       return <ChildComponent propName="Hello, from parent!" />;
+     };
+
+
+2. استقبال `props`:
+   - في المكون الابن، يمكن استقبال البيانات باستخدام `props`:
+
+     const ChildComponent = (props) => {
+       return <p>{props.propName}</p>;
+     };
+     ```
+
+     أو يمكن استخدام تفكيك الكائن:
+
+     const ChildComponent = ({ propName }) => {
+       return <p>{propName}</p>;
+     };
+
+
+   يمكن تمرير أي عدد من `props` إلى المكونات، ويمكن للمكونات الابنة استخدام هذه الخصائص لتحديد سلوكها أو عرض المحتوى الذي يمرره المكون الأب.
+   
+3- تمرير البيانات من قاعدة البيانات او اي مصدر بيانات:
+     - مثال :
+	     اولا لدينا ملف data :
+	       export const data=[
+		{
+			color: "red",
+			value: "#f00"
+		},
+	       ]
+               تانيا لدينا ملف الاب اسمه App.js:
+	  	import Card from "./Compenent/card";
+		import { data } from "./Data/Data";
+		function App() {
+		  const showdata=data.map((car)=><Card color={car.color} value={car.value}/>)
+		  return (<>
+			{showdata}
+		   </>
+		  );
+		}
+
+		export default App;
+        لدينا ملف الابن الدي سينمرر له data:
+	        export default  function Card(props){
+                return <div >
+		    name color :{props.color}<br/>
+		    show color :<span style={{color:`${props.value}`}}>{props.color}</span>
+
+		    </div>
+		}
+   ما حدت هو اننا استرددنا البيانات من من ملف data وقمننا بتمريها للملف الابن وستخدمنا دالة الماب بهدف استخراج كل البيانات ووضعها في متغير جديد محلي.
+   
+   
+   مثال اخر:
+   لدينا ملف dtat,js
+   export const data = [
+  {
+    title: "title1",
+    disc: "disc 1 Here are the biggest enterprise technology acquisitions of 2021 so far, in reverse chronological order",
+    img: require("./assite/pexels-digital-buggu-374559.jpg"), 
+    alt: 'img1' 
+  },
+  {
+    title: "title2",
+    disc: "disc 2 Here are the biggest enterprise technology acquisitions of 2021 so far, in reverse chronological order",
+    img: require("./assite/pexels-julien-brion-102061.jpg"), 
+    alt: 'img1' 
+  }, 
+   {
+    title: "title1",
+    disc: "disc 1 Here are the biggest enterprise technology acquisitions of 2021 so far, in reverse chronological order",
+    img: require("./assite/pexels-markus-spiske-225769.jpg"), 
+    alt: 'img1' 
+  },
+  {
+    title: "title1",
+    disc: "disc 1 Here are the biggest enterprise technology acquisitions of 2021 so far, in reverse chronological order",
+    img: require("./assite/pexels-rahul-pandit-1933900.jpg"), 
+    alt: 'img1' 
+  },
+  {
+    title: "title1",
+    disc: "disc 1 Here are the biggest enterprise technology acquisitions of 2021 so far, in reverse chronological order",
+    img: require("./assite/Untitled.jpeg"), 
+    alt: 'img1' 
+  },
+];
+   لدينا ملف app.js
+   import React from 'react';
+import Card from "./Compenent/card";
+import { data } from "./Data";
+
+function App() {
+  const showdata = data.map((item, index) => (
+    <Card key={index} title={item.title} disc={item.disc} img={item.img} alt={item.alt}/>
+  ));
+
+  return <>{showdata}</>;
+}
+
+export default App;
+
+   لدينا ملف card.js
+
+export default function Card(props) {
+  return (
+    <div>
+      <a
+        href="goolg.com"  
+        className="flex flex-col items-center bg-white border border-gray-200 rounded-lg shadow md:flex-row md:max-w-xl hover:bg-gray-100 dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-700"
+      >
+        <img
+          className="object-cover w-full rounded-t-lg h-96 md:h-auto md:w-48 md:rounded-none md:rounded-s-lg"
+          src={props.img}
+          alt={props.alt}
+        />
+        <div className="flex flex-col justify-between p-4 leading-normal">
+          <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
+            {props.title}
+          </h5>
+          <p className="mb-3 font-normal text-gray-700 dark:text-gray-400">
+            {props.disc}
+          </p>
+        </div>
+      </a>
+    </div>
+  );
+}
+
+
+1/////////////////////////////////////////////////////////////////////////////////////////////////
+=========================== المتغير الديناميكي: التعريف || React UseState:
+            تستخدم في reacthooks وهو ينشئ حالة محلية يتم تحديتها بستمرار وهيا افضل من المتغيرات العادية , وتقوم بتحمبل الصفحة التي نحن فيها
+ ======== مثال :
+ import React, { useState } from 'react';
+
+function ExampleComponent() {
+
+  const [count, setCount] = useState(0);
+
+  return (
+    <div>
+      <p>You clicked {count} times</p>
+   
+      <button onClick={() => setCount(count + 1)}>
+        Click me
+      </button>
+    </div>
+  );
+}
+
+export default ExampleComponent;
+
+   يمثل count المتغير الحالي و setCount الدالة المستخدمة في تحديت قيمة count و الصفر قيمة بدئية 
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
